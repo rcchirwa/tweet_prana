@@ -1,0 +1,49 @@
+{% comment %}
+    #This is displayed when a user has sucessfully logged in 
+{% endcomment %}
+
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="#">Custom Tweet</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="#">Home</a></li>
+              <li><a href="tweet">Tweet</a></li>
+
+
+              {% comment %}
+                #Display the appropriate title based on credential level
+              {% endcomment %}
+
+              {% if is_staff %}
+                  <li><a href="tweets_list">Moderate</a></li>
+              {% else %}
+                  <li><a href="tweets_list">Tweet History</a></li>
+              {% endif %}
+
+
+
+           </ul>
+              <div class="pull-right lead navbar-inverse">
+                <ul class="nav">
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"> {{username}} <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                      <a href="logout">logout</a>
+                      <li class="divider"></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>

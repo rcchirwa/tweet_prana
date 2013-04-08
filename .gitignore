@@ -1,0 +1,12 @@
+*.pyc
+*.*~
+mysite/settings/local.py
+
+#excluded libraries
+mysite/tweets/assets/fonts
+mysite/tweets/assets/images
+mysite/tweets/assets/img
+mysite/static
+static/
+
+
