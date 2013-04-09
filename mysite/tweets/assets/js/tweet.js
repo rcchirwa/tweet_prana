@@ -276,22 +276,22 @@
 				//if toggler is true then action needs to be performed
 				if (toggler==true){ 
 					toggler = false;//reset toggler state
-					$('#word-counter').addClass('text-error');
-					$('#tweet_btn').prop('disabled', true);
+					$('#word-counter').addClass('text-error lead');
+					$('#tweet_btn').prop('disabled', true).removeClass('btn-primary');
 				}
 			}
 			else if (str_len > 0)
 			{
 				if (toggler==false){ 
 					toggler = true;//reset toggler stat
-					$('#word-counter').removeClass('text-error');
-					$('#tweet_btn').prop('disabled', false);
+					$('#word-counter').removeClass('text-error lead');
+					$('#tweet_btn').prop('disabled', false).addClass('btn-primary');	
 				}
 			}
 			else if (str_len == 0)
 			{
 					toggler = false;
-					$('#tweet_btn').prop('disabled', true);
+					$('#tweet_btn').prop('disabled', true).removeClass('btn-primary');
 			}
 
 			//toggler is only true between 1 and 140
