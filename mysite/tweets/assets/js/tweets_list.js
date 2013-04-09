@@ -132,6 +132,26 @@
 				}
 	  })
 
+
+  // **This is is responsible for the table colum header
+	var TweetListPageHeaderView =  Backbone.View.extend({
+		tagName: 'tr', 
+		initialize: function(){
+		    	_.bindAll(this, 'render');
+		},
+		template: _.template(			
+                "<th style=\"width: 65%\">Tweet " + 
+                "</th> " + 
+                "<th>User</th> " + 
+                "<th>Status</th> " + 
+                "<th>Date Created</th> "
+			),
+		render: function(){
+		   		$(this.el).html(this.template());
+		   		return this; // for chainable calls, like .render().el
+				}
+	  })
+
 //this renders the whole list by iterating through a given collection and rendering the individual items
 var TweetListView = Backbone.View.extend({
 	initialize: function(){
@@ -150,7 +170,9 @@ var TweetListView = Backbone.View.extend({
 	},
 	render_page_nav: function(){
 		var tweetListPageNavView = new TweetListPageNavView({collection: this.collection});
+		var tweetListPageHeaderView = new TweetListPageHeaderView();
 		$('#tweetlistTable thead').append(tweetListPageNavView.render().el);
+		$('#tweetlistTable thead').append(tweetListPageHeaderView.render().el);
 	},
 	addAll: function(){
 		this.$el.empty();
@@ -160,7 +182,7 @@ var TweetListView = Backbone.View.extend({
 	addItem: function(item){
 		var tweetListItemView = new TweetListItemView({model: item})
 		this.$el.append(tweetListItemView.render().el);
-		console.log(tweetListItemView.el);
+		//console.log(tweetListItemView.el);
 	}
 });
 
