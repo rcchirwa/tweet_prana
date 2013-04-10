@@ -32,5 +32,38 @@ class TweetDetails(models.Model):
     def create(cls,tweet, id_str, created_at, created_at_epoch, retweet_count, html, stripped_html):
         tweetDetails = cls(tweet=tweet, id_str=id_str, created_at=created_at, created_at_epoch=created_at_epoch, retweet_count=retweet_count, html=html, stripped_html=stripped_html)
         return tweetDetails
-#
-#    tweet, id_str, html, created_at_time, created_at_epoch, retweet_count
+
+
+
+class DirtyWord(models.Model):
+    word = models.CharField(max_length=512, blank=False)
+    #created_by_user = models.ForeignKey(User)
+    #updated_by_user = models.ForeignKey(User)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+        return u'%s' % self.word
+
+
+class PCBrandTerm(models.Model):
+    pcTerm = models.CharField(max_length=512, blank=False)
+    #created_by_user = models.ForeignKey(User)
+    #updated_by_user = models.ForeignKey(User)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+        return u'%s' % self.pcTerm
+
+
+class BrandSensitiveTerm(models.Model):
+    pcTerm = models.ForeignKey(PCBrandTerm)
+    brandSensitiveTerm = models.CharField(max_length=512, blank=False)
+    #created_by_user = models.ForeignKey(User)
+    #updated_by_user = models.ForeignKey(User)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+        return u'%s' % self.brandSensitiveTerm

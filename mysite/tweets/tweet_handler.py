@@ -1,4 +1,4 @@
-from django.conf import settings
+#from django.conf import settings
 
 import tweepy
 import json
@@ -8,19 +8,29 @@ from collections import namedtuple
 import re
 import logging
 
-#my keys pulled from a file which is git ignored
-twitter_keys = settings.TWITTER_KEYS
+#my twitter keys pulled from Settings 
+#twitter_keys = settings.TWITTER_KEYS
 
+twitter_keys = {
+	"consumer_key": "N3Tabq1NnBgvdqnCx1XsQ", 
+	"consumer_secret": "4pYxqXxInFZpn2eDAZg8GZvuhEOBJbEKgL87EmrIg",
+	"access_token": "1339183112-ryRuNHh7waLlrHmgkz4EBjJde9QsmrlwSSX5HGN", 
+	"access_token_secret": "8qfHcJcJLyPuFmpe7CbmTyj5BhPQXYryRK3ygRJEPE"
+}
+
+
+#my twitter app keys
 access_token = twitter_keys['access_token'] 
 access_token_secret =  twitter_keys['access_token_secret']
 
+#consumer key which allows me to pos to my own timeline so not need for auth2
 consumer_key = twitter_keys["consumer_key"]
 consumer_secret = twitter_keys["consumer_secret"]
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
 
-
+#this creates the authorization.authentication to the api call 
 api = tweepy.API(auth)
 
 '''
@@ -32,6 +42,7 @@ def postTweet(tweet):
 
 	tweet_text = tweet.tweet
 	
+	#this post that actual tweet 
 	tester = api.update_status(tweet.tweet)
 
 	date_time = '%s-%s-%s %s'  % (tester.created_at.year,tester.created_at.month,tester.created_at.day,tester.created_at.time())
@@ -49,19 +60,15 @@ def postTweet(tweet):
 	created_at_epoch = epoch
 	retweet_count = tester.retweet_count
 
-	tweetCallURL = "https://api.twitter.com/1/statuses/oembed.json?id=%s"%id_str
-
-	p =  urllib2.urlopen(tweetCallURL)
-	tweetObject = p.read()
-
-	tweet = json.loads(tweetObject)
+	#grab information from twitter for the tweet that we just posted
+	posted_tweet_json = tweet_json_from_url(id_str)
 
 	#this is the raw html string produced  twitter is you want to repost the tweets
-	html = tweet['html']
+	html = posted_tweet_json['html']
 
 	#create a regular expression to strip the tweet 
 	regex = re.compile("<blockquote class=\"twitter-tweet\">(.*)</blockquote>")
-	stripped_html = regex.findall(html)[0]\
+	stripped_html = regex.findall(html)[0]
 
 	#define tuple to return	
 	TweetDetails = namedtuple('TweetDetails','id_str created_at_time_txt created_at created_at_epoch retweet_count html stripped_html')
@@ -73,3 +80,33 @@ def postTweet(tweet):
 	return tweetDetails
 
 
+
+
+'''
+The function pulls tweet data based on an id and returns the json string object
+'''
+
+def tweet_json_from_url(id_str): 
+	tweetCallURL = "https://api.twitter.com/1/statuses/oembed.json?id=%s"%id_str
+
+	p = urllib2.urlopen(tweetCallURL)
+	tweetData = p.read()
+	tweetJSONData = json.loads(tweetData)
+
+	return tweetJSONData
+
+
+
+'''
+The function pulls retrieves the tweet recount based on id
+'''
+def get_tweet_recount_from_id(id_str): 
+	tweepy =  api.get_status(id_str)
+
+	return tweepy.retweet_count
+
+
+print tweet_json_from_url(322050480169705472)
+tweet_values = api.get_status(322050480169705472)
+print dir(tweet_values)
+print tweet_values.geo

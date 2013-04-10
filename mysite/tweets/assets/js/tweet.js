@@ -17,11 +17,6 @@
 					pc_term: "Maker"
 				},
 
-				custommade: { 
-					pattern: /custom_*-*\s*m*ade/gi,
- 					pc_term: "CustomMade"
- 				},
-
 				dashboard: {
 					pattern: /(admin|back_*-*end)/gi,
 					pc_term: "Dashboard"
